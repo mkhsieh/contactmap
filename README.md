@@ -1,4 +1,4 @@
-Contact analysis from MD trajectory (current only for dcd files) from biomolecules systems.
+Contact information analysis for MD trajectory (current only for dcd files) from biomolecules systems.
 
 Dependency: python 3, numpy, matplotlib.pyplot, pyemma, itertools, mdtraj, os, argparse
 
@@ -14,4 +14,3 @@ python contact.py --pdb protein.pdb --traj dyn1.dcd dyn2.dcd dyn3.dcd --sel1 nam
 
 or select a range of residue:  
 python contact.py --pdb protein.pdb --traj dyn1.dcd dyn2.dcd dyn3.dcd --sel1 residue 40 to 70 and name CA --sel2 reidue 80 to 120 and name CA --cutoff 9 --DistanceMap --ContactMap --outfolder outfolder
-
