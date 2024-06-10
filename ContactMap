@@ -48,14 +48,13 @@ def dis_matrix(args):
     frq = np.where(data < args.cutoff, 1, 0)
     #print("frq shape:", frq.shape)
     freq = np.mean(frq,axis=0)
-
-    with open('contact_dis.npy','wb') as f:
+    with open(args.outfolder+'/contact_dis.npy','wb') as f:
         np.save(f,dis)
 
-    with open('contact_freq.npy','wb') as f:
+    with open(args.outfolder+'/contact_freq.npy','wb') as f:
         np.save(f,freq)
 
-    #with open('contact_se.npy','wb') as f:
+    #with open(args.outfolder+'/contact_se.npy','wb') as f:
     #    np.save(f,se)
     '''
     dis_t_func = np.mean(data,axis=2)
@@ -68,14 +67,14 @@ def dis_matrix(args):
     #np.savetxt("se_t_func.txt", se_t_func, fmt="%f")
     '''
     if args.DistanceMap:
-        generate_distanacemap(dis)
+        generate_distanacemap(args,dis)
 
     if args.ContactMap:
-        generate_contactmap(freq)
+        generate_contactmap(args,freq)
 
     return None
 
-def generate_distanacemap(dis):
+def generate_distanacemap(args,dis):
     xini=1
     yini=1
     plt.figure(figsize=(48,48))
@@ -103,10 +102,11 @@ def generate_distanacemap(dis):
     plt.grid(c='black')
     cbar =plt.colorbar(im)
     cbar.ax.tick_params(labelsize=25)
-    plt.savefig('DistanceMap.png')
+    plt.savefig(args.outfolder+'/DistanceMap.png')
     plt.close()
 
-def generate_contactmap(freq):
+def generate_contactmap(args,freq):
+    dir = os.path.dirname(__file__)
     xini=1
     yini=1
     plt.figure(figsize=(48,48))
@@ -134,7 +134,7 @@ def generate_contactmap(freq):
     plt.grid(c='black')
     cbar =plt.colorbar(im)
     cbar.ax.tick_params(labelsize=25)
-    plt.savefig('ContactMap.png')
+    plt.savefig(args.outfolder+'/ContactMap.png')
     plt.close()
 
 def main():
@@ -174,8 +174,10 @@ def main():
     )
 
     args = parser.parse_args()
+    if not os.path.exists(args.outfolder):
+        os.makedirs(args.outfolder)
+
     dis_matrix(args)
 
 if __name__ == '__main__':
     main()
-
