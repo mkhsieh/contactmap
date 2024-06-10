@@ -14,3 +14,5 @@ python contact.py --pdb protein.pdb --traj dyn1.dcd dyn2.dcd dyn3.dcd --sel1 nam
 
 or select a range of residue:  
 python contact.py --pdb protein.pdb --traj dyn1.dcd dyn2.dcd dyn3.dcd --sel1 residue 40 to 70 and name CA --sel2 reidue 80 to 120 and name CA --cutoff 9 --DistanceMap --ContactMap --outfolder outfolder
+
+The contact distance map (DistanceMap.png) and contact frequency map (ContactMap.png) will be generated in the OUTFOLDER, the data will be storied as contact_dis.npy and contact_freq.npy files as well.
