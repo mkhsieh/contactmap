@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pyemma, itertools
 import mdtraj as md
+import argparse
 import os, time, argparse
 
 def dis_matrix(args):
@@ -26,25 +27,25 @@ def dis_matrix(args):
 
     # import data from traj files
     print(f'read trajectory files: {args.traj}')
-    data_traj = args.traj
-    data = pyemma.coordinates.load(data_traj, feat)
-    data = np.array(data)
-    data = data*10
+    pairdist_traj = args.traj
+    pairdist = pyemma.coordinates.load(pairdist_traj, feat)
+    pairdist = np.array(pairdist)
+    pairdist = pairdist*10
     ## for single traj file
     ## data shape [ n_frame_per_file, n_sel1 x n_sel2 ]
     #  for mutiple traj files
     ## data shape [ n_traj_file, n_frame_per_file, n_sel1 x n_sel2 ]
-    #print(data.shape)
-    #print(data.ndim)
+    #print(pairdist.shape)
+    #print(pairdist.ndim)
 
-    if len(args.traj) == 1 : data = data.reshape(data.shape[0],data.shape[-1])
-    else : data = data.reshape(data.shape[0]*data.shape[1],data.shape[-1])
-    #if data.ndim == 3: data = data.reshape(data.shape[0]*data.shape[1],data.shape[-1])
-    #if data.ndim == 2: data = data.reshape(data.shape[0],data.shape[-1])
-    data = data.reshape(len(data),n1,n2)
+    if len(args.traj) == 1 : pairdist = data.reshape(pairdist.shape[0],pairdist.shape[-1])
+    else : pairdist = pairdist.reshape(pairdist.shape[0]*pairdist.shape[1],pairdist.shape[-1])
+    #if pairdist.ndim == 3: pairdist = pairdist.reshape(pairdist.shape[0]*pairdist.shape[1],pairdist.shape[-1])
+    #if pairdist.ndim == 2: pairdist = pairdist.reshape(pairdist.shape[0],pairdist.shape[-1])
+    pairdist = pairdist.reshape(len(pairdist),n1,n2)
 
-    dis = np.mean(data,axis=0)
-    #se = np.std(data, axis=0, ddof=1) / np.sqrt(np.size(data, axis=1))
+    dis = np.mean(pairdist,axis=0)
+    #se = np.std(pairdist, axis=0, ddof=1) / np.sqrt(np.size(pairdist, axis=1))
     frq = np.where(data < args.cutoff, 1, 0)
     #print("frq shape:", frq.shape)
     freq = np.mean(frq,axis=0)
@@ -54,18 +55,6 @@ def dis_matrix(args):
     with open(args.outfolder+'/contact_freq.npy','wb') as f:
         np.save(f,freq)
 
-    #with open(args.outfolder+'/contact_se.npy','wb') as f:
-    #    np.save(f,se)
-    '''
-    dis_t_func = np.mean(data,axis=2)
-    #se_t_frunc = np.std(data, axis=2, ddof=1) / np.sqrt(np.size(data, axis=0))
-    freq_t_func = np.mean(frq,axis=2)
-
-    print(dis_t_func)
-    np.savetxt("dis_t_func.txt", dis_t_func, fmt="%f")
-    np.savetxt("freq_t_func.txt", freq_t_func, fmt="%f")
-    #np.savetxt("se_t_func.txt", se_t_func, fmt="%f")
-    '''
     if args.DistanceMap:
         generate_distanacemap(args,dis)
 
@@ -106,7 +95,6 @@ def generate_distanacemap(args,dis):
     plt.close()
 
 def generate_contactmap(args,freq):
-    dir = os.path.dirname(__file__)
     xini=1
     yini=1
     plt.figure(figsize=(48,48))
@@ -139,7 +127,7 @@ def generate_contactmap(args,freq):
 
 def main():
     parser = argparse.ArgumentParser(
-            description='calc contact map.'
+            description='calculation the contacts from DCD trajectory files.'
     )
     parser.add_argument('--pdb', dest='pdb', type=str, default=[False],
                         help='the corresponding PDB file of the DCD trajectory. '
