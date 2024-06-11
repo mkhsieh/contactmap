@@ -1,3 +1,5 @@
+# Contact Map
+
 Contact information analysis for MD trajectory (current only for dcd files) from biomolecules systems.
 
 Dependency: python 3, numpy, matplotlib.pyplot, pyemma, itertools, mdtraj, os, argparse
