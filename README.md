@@ -2,7 +2,7 @@ Contact information analysis for MD trajectory (current only for dcd files) from
 
 Dependency: python 3, numpy, matplotlib.pyplot, pyemma, itertools, mdtraj, os, argparse
 
-Usage: contact.py [-h] [--pdb PDB] [--traj TRAJ [TRAJ ...]] [--sel1 SEL1 [SEL1 ...]] [--sel2 SEL2 [SEL2 ...]] [--cutoff CUTOFF] [--DistanceMap] [--ContactMap] [--outfolder OUTFOLDER]
+Usage: contactmap.py [-h] [--pdb PDB] [--traj TRAJ [TRAJ ...]] [--sel1 SEL1 [SEL1 ...]] [--sel2 SEL2 [SEL2 ...]] [--cutoff CUTOFF] [--DistanceMap] [--ContactMap] [--outfolder OUTFOLDER]
 Note: 
 1. trajectory files could be added as a list 
 2. atomselection method as mdtraj https://mdtraj.org/1.9.4/atom_selection.html
